@@ -24,8 +24,7 @@ First Approach (Includes false assumtion, skip to second approach for the correc
   Learning that node numbers didn't necessarily have this assumed property, I took a different approach. 
   
  Second Approach: 
-  1) I 
-
+  1) I created a list of lists such that L[i-1] contained all the node numbers to which node i had a connecting edge. This list contained each node twice. My first goal was to go from this to a list where L[i-1] would only contain the children's numbers and not its parent's. I wrote a function called purge which takes a root number and starts visiting its children in L to remove itself from the children's indexes. This works because the root number is guaranteed not to have a parent in its list, and once it's been cleaned from its children's lists, those lists are also guarantee not to have a parent in them, so the function moves onto their children's lists and removes the parent values from the lists. This takes O(n) time because in the worst case, every element is visited once and V-1 items are removed. 
 
 
 
