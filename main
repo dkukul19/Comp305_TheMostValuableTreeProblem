@@ -1,0 +1,147 @@
+#Project incubate mars
+import math
+import random
+import numpy as np
+
+###################################### Construct initial variables (n,k,cost_list,edge_list)
+read_n = 0
+read_k = 0
+read_costs = []
+line_no = 0
+read_edge_list = []
+with open("/Users/doga/Desktop/forbiddenTree5") as file:
+    while (line := file.readline().rstrip()):
+        split = line.split(' ')
+        line_no += 1
+        if line_no == 1: # n and k
+            read_n = int(split[0])
+            read_k = int(split[1])
+        elif line_no == 2: # costs
+            read_costs = [int(split[i]) for i in range(read_n)]
+        else: # edges
+            read_edge_list.append((int(split[0]),int(split[1])))
+        #print(line)
+######################################
+
+
+
+
+
+
+
+
+
+n = 8
+#list_of_edges = [(1,2),(2,3),(4,1),(4,5)]
+list_of_edges = [(1,2),(2,3),(2,4),(1,5),(5,6),(5,7),(5,8)]
+#list_of_costs = [75,-5,-100,100,-65,50,-5,-200]
+list_of_costs = [157,-153,-52,89,12,-187,93,-37]
+
+
+#list_of_edges = [(1,2),(2,3),(2,4),(1,5),(5,6),(5,7),(5,8)]
+#list_of_edges = [(1,2),(2,3),(4,1),(4,5)]
+#list_of_edges = [(5,1),(1,2),(4,5),(2,3)]
+
+
+n = read_n
+k = read_k
+list_of_edges = read_edge_list
+list_of_costs = read_costs
+
+
+list_of_lists = [[] for i in range(len(list_of_edges)+1)] # construct list of edges
+for pair in list_of_edges:
+    list_of_lists[pair[0]-1].append(pair[1]) #add 2 to 0th index (1)
+    list_of_lists[pair[1]-1].append(pair[0]) #add 1 to 1st index (2)
+#print('new day')
+#print(list_of_lists)
+
+
+def purge(arg):
+    index = arg-1
+    for child in list_of_lists[index]:
+        #print(list_of_lists[child-1])
+        list_of_lists[child-1].remove(arg)
+    #print(list_of_lists)
+    for child in list_of_lists[index]:
+
+        purge(child)
+
+
+purge(1)
+
+#print(list_of_lists)
+
+
+
+post_order_list = []
+def postOrder(root): # 1 will be given --- This function prints the numbers in such a way that
+    # if I want to calculate the T value of a node I already know the T values of the children.
+    children = list_of_lists[root-1]
+    for child in children:
+        postOrder(child)
+    #print(root)
+    post_order_list.append(root)
+
+postOrder(1) #after making this call I have the post order list. Then I calculate T values using a
+            #lookup table that I update dynammically
+#list_of_costs = [-87,-56,104,41,-179]
+Ts = [0 for i in range(n)] #initially all 0
+#print(post_order_list)
+
+def calculateTs():
+    for vertex in post_order_list:
+        Ts[vertex-1] = list_of_costs[vertex-1]#cost + children's T's
+        for children in list_of_lists[vertex-1]:
+            Ts[vertex-1] += Ts[children-1]
+calculateTs()
+
+def annihilate(arg): # turns the argmin indexed vertex and all its children's values to 0
+    Ts[arg] = 0
+    list_of_costs[arg] = 0
+    for element in list_of_lists[arg]:
+        annihilate(element-1)
+def prune():
+    iteration = 0
+    print(f'initial: {Ts}')
+    min_t = np.argmin(Ts)  # find the index of smallest T value to annihilate
+    while Ts[min_t] < 0 and iteration < k:
+        annihilate(min_t)
+        calculateTs()
+        min_t = np.argmin(Ts)
+        print(f'After cut no {iteration+1}: {Ts}')
+        iteration+=1
+prune()
+
+print(Ts[0])
+
+# OBSERVATIONS:
+# In the first edges list, there is exactly one parent (except for root)
+# for each element in the list, which will be cut off in purge.
+#
+#
+#
+#
+#
+#read_n = 0
+#read_k = 0
+#read_costs = []
+#line_no = 0
+#read_edge_list = []
+#with open("/Users/doga/Desktop/forbiddenTree1") as file:
+ #   while (line := file.readline().rstrip()):
+ #       split = line.split(' ')
+ #       line_no += 1
+ #       if line_no == 1: # n and k
+ #           read_n = int(split[0])
+ #           read_k = int(split[1])
+ #       elif line_no == 2: # costs
+ #           read_costs = [int(split[i]) for i in range(n)]
+ #       else: # edges
+ #           read_edge_list.append((int(split[0]),int(split[1])))
+        #print(line)
+
+#print(read_n)
+#print(read_k)
+#print(read_costs)
+#print(read_edge_list)
