@@ -33,6 +33,19 @@ First Approach (Includes false assumtion, skip to second approach for the correc
 5) Gardening: Finally, I wrote a while loop which would repeat steps 3 and 4 until either no negative T value was left, meaning the tree could not be improved by pruning it further, or reaching the maximum number of allowed cuts. 
 
 
+Why the smallest T works:
+
+
+
+Observation : If T value of a parent P is smaller than one of its children C, pruning any of the of the children is worse (yields lower score) than pruning the parent, even if the child’s cost is lower (more negative, worse) than the parent’s. (P + other children must be a negative value if the T value drops from child C to parent P)
+Result: Finding a local minima isn’t sufficient. (This was my initial approach but I decided not to pursue it after realizing it wouldn’t work)
+
+Observation : With every cut, T value of the root, as well as the parents of the pruned branch, decrease by the T value of the node that was cut. 
+Result: It never makes sense to cut a node that has a positive T value.
+
+
+One can infer from these observations that if the cut is not made on the minimum negative T value, the resulting T value of the root can be improved by replacing the cut with the minimum T valued cut. 
+
 
 
 
