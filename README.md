@@ -18,8 +18,8 @@ Solution Idea:
 
 First Approach (Includes false assumtion, skip to second approach for the correct solution): 
 
-  1)Constructing the tree: The most difficult part for me was constructing the tree in O(n) time. First I assumed that the parents would be numbered before the children, so in any given pair the smaller value would be the parent and the larger one would be the child. This allowed quick construction of a list representation of the tree by iterating through the edge information only once (list-of-edges L s.t. L[i-1] contains a list with the numbers of its children). 
-  2)Calculating T values: This false assumption also made it easier to calculate the T values because starting from the end of the list, children are guaranteed to appear before their parents. Keeping a list T of T values s.t. T[i-1] = Ti and using it as a look-up table its possible to calculate all the T values in one reverse iteration. 
+1) Constructing the tree: The most difficult part for me was constructing the tree in O(n) time. First I assumed that the parents would be numbered before the children, so in any given pair the smaller value would be the parent and the larger one would be the child. This allowed quick construction of a list representation of the tree by iterating through the edge information only once (list-of-edges L s.t. L[i-1] contains a list with the numbers of its children). 
+2) Calculating T values: This false assumption also made it easier to calculate the T values because starting from the end of the list, children are guaranteed to appear before their parents. Keeping a list T of T values s.t. T[i-1] = Ti and using it as a look-up table its possible to calculate all the T values in one reverse iteration. 
   
   Learning that node numbers didn't necessarily have this assumed property, I took a different approach. 
   
