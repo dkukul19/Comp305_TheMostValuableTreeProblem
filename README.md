@@ -43,6 +43,9 @@ Result: Finding a local minima isn’t sufficient. (This was my initial approach
 Observation : With every cut, T value of the root, as well as the parents of the pruned branch, decrease by the T value of the node that was cut. 
 Result: It never makes sense to cut a node that has a positive T value.
 
+Observation: If at any step the parent of a cut off child is cut, it means T value of the parent had to have been lower than the T value of the cut child, so this 2-step-cut should have been done in one step by simply cutting the parent.  
+Result: Parent of a cut node will not be cut. 
+
 
 One can infer from these observations that if the cut is not made on the minimum negative T value, the resulting T value of the root can be improved by replacing the cut with the minimum T valued cut. 
 
