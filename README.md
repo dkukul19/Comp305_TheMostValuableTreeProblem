@@ -6,6 +6,8 @@ Problem: Given an edge representation of a tree structure with weighted nodes, r
 
 Input: A file containing lines of integers seperated by a single space is given. First line contains the number of nodes and number of allowed cuts. Second line is the costs for corresponding nodes. Rest of the lines are pairs representing an edge between the numbered nodes. Number 1 is the root. 
 
+TLDR: Construct the tree and keep deleting the node with the lowest negative sum.
+
 Solution Idea: 
 1) Construct the tree with the given information, it should take O(n) time. 
 
